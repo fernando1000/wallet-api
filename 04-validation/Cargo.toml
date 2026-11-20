@@ -1,0 +1,11 @@
+[package]
+name = "wallet-api"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = { version = "0.8.9", features = ["macros"] }
+serde = { version = "1.0.229", features = ["derive"] }
+thiserror = "2.0.21"
+tokio = { version = "1.54.1", features = ["full"] }
+validator = "0.21.0"
