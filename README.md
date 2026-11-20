@@ -12,16 +12,19 @@ Every lesson has its own folder with the complete code at the end of that video,
 | 2 | [`02-crud-shared-state`](02-crud-shared-state) | [Full CRUD with Shared State](https://youtu.be/lFmGxQ6NGCk) (15 min) | In-memory users CRUD, `Arc<RwLock<...>>` with `with_state`, the `State` / `Path` / `Query` / `Json` extractors, status codes, `#[debug_handler]`, 100 parallel requests |
 | 3 | [`03-error-handling`](03-error-handling) | [Error Handling Done Right](https://youtu.be/gk7aUfa3HL4) (14 min) | One `ApiError` enum with `thiserror`, `IntoResponse` with the same JSON error body, `?` and `From` (including `From<PoisonError<T>>`), custom extractors with `#[derive(FromRequest)]` for Axum's rejections, `409 Conflict` for duplicate emails, no `unwrap()` in handlers |
 | 4 | [`04-validation`](04-validation) | [Validation and Type-Safe DTOs](https://youtu.be/o4VHyqKAC1U) (14 min) | DTO vs domain types, newtypes with private fields (`UserName`, `Email`), `TryFrom` as the only constructor ("parse, don't validate"), `422` listing every invalid field at once, normalized emails so duplicates can't hide, the `validator` crate |
+| 5 | [`05-postgres-sqlx`](05-postgres-sqlx) | [PostgreSQL with SQLx](https://youtu.be/XPcp-o8gmqs) (18 min) | Postgres in Docker Compose, versioned migrations with the SQLx CLI and `migrate!()`, a `PgPool` instead of `Arc<RwLock<...>>`, queries checked at compile time with `query_as!` / `query!`, `Option` from `fetch_optional`, newtypes read with `#[sqlx(transparent)]`, `UNIQUE` email with unique violations mapped to `409` |
 
 Each lesson is also tagged (`lesson-01`, `lesson-02`, ...), so you can check out the repository as it was after that video.
 
 ## Running a lesson
 
-Requirements: Rust 1.85 or newer (edition 2024).
+Requirements: Rust 1.85 or newer (edition 2024). From lesson 5 on, also Docker with Compose and the SQLx CLI (`cargo install sqlx-cli`).
 
 ```bash
 git clone https://github.com/fernando1000/wallet-api.git
-cd wallet-api/04-validation
+cd wallet-api/05-postgres-sqlx
+docker compose up -d
+sqlx migrate run
 cargo run
 ```
 
@@ -29,8 +32,8 @@ The API listens on `http://localhost:8080`. The README in each folder lists the 
 
 ## Stack
 
-[Axum](https://github.com/tokio-rs/axum) 0.8 · [Tokio](https://tokio.rs/) 1 · [Serde](https://serde.rs/) 1 · [thiserror](https://github.com/dtolnay/thiserror) 2 (from lesson 3) · [validator](https://github.com/Keats/validator) 0.21 (from lesson 4)
+[Axum](https://github.com/tokio-rs/axum) 0.8 · [Tokio](https://tokio.rs/) 1 · [Serde](https://serde.rs/) 1 · [thiserror](https://github.com/dtolnay/thiserror) 2 (from lesson 3) · [validator](https://github.com/Keats/validator) 0.21 (from lesson 4) · [SQLx](https://github.com/launchbadge/sqlx) 0.9 with PostgreSQL 18 (from lesson 5)
 
 ---
 
-Made by Fernando Santos · [YouTube](https://youtu.be/o4VHyqKAC1U) · [LinkedIn](https://www.linkedin.com/in/fernando-blockchain)
+Made by Fernando Santos · [YouTube](https://youtu.be/XPcp-o8gmqs) · [LinkedIn](https://www.linkedin.com/in/fernando-blockchain)
