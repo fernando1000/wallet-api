@@ -13,6 +13,7 @@ Every lesson has its own folder with the complete code at the end of that video,
 | 3 | [`03-error-handling`](03-error-handling) | [Error Handling Done Right](https://youtu.be/gk7aUfa3HL4) (14 min) | One `ApiError` enum with `thiserror`, `IntoResponse` with the same JSON error body, `?` and `From` (including `From<PoisonError<T>>`), custom extractors with `#[derive(FromRequest)]` for Axum's rejections, `409 Conflict` for duplicate emails, no `unwrap()` in handlers |
 | 4 | [`04-validation`](04-validation) | [Validation and Type-Safe DTOs](https://youtu.be/o4VHyqKAC1U) (14 min) | DTO vs domain types, newtypes with private fields (`UserName`, `Email`), `TryFrom` as the only constructor ("parse, don't validate"), `422` listing every invalid field at once, normalized emails so duplicates can't hide, the `validator` crate |
 | 5 | [`05-postgres-sqlx`](05-postgres-sqlx) | [PostgreSQL with SQLx](https://youtu.be/XPcp-o8gmqs) (18 min) | Postgres in Docker Compose, versioned migrations with the SQLx CLI and `migrate!()`, a `PgPool` instead of `Arc<RwLock<...>>`, queries checked at compile time with `query_as!` / `query!`, `Option` from `fetch_optional`, newtypes read with `#[sqlx(transparent)]`, `UNIQUE` email with unique violations mapped to `409` |
+| 6 | [`06-repository-pattern`](06-repository-pattern) | [The Repository Pattern](https://youtu.be/zbglU7Ppv10) (20 min) | A `UserRepository` trait with its own `RepoError` (converted with `From`), the SQLx code moved into `PgUserRepository`, handlers generic over the trait, why `Arc<dyn Trait>` fails with `async fn` (E0038), generics vs `dyn`, `impl Future + Send` in the trait, an in-memory fake repository and `#[tokio::test]` handler tests without a database |
 
 Each lesson is also tagged (`lesson-01`, `lesson-02`, ...), so you can check out the repository as it was after that video.
 
@@ -22,7 +23,7 @@ Requirements: Rust 1.85 or newer (edition 2024). From lesson 5 on, also Docker w
 
 ```bash
 git clone https://github.com/fernando1000/wallet-api.git
-cd wallet-api/05-postgres-sqlx
+cd wallet-api/06-repository-pattern
 docker compose up -d
 sqlx migrate run
 cargo run
@@ -36,4 +37,4 @@ The API listens on `http://localhost:8080`. The README in each folder lists the 
 
 ---
 
-Made by Fernando Santos · [YouTube](https://youtu.be/XPcp-o8gmqs) · [LinkedIn](https://www.linkedin.com/in/fernando-blockchain)
+Made by Fernando Santos · [YouTube](https://youtu.be/zbglU7Ppv10) · [LinkedIn](https://www.linkedin.com/in/fernando-blockchain)
