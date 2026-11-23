@@ -14,18 +14,20 @@ Every lesson has its own folder with the complete code at the end of that video,
 | 4 | [`04-validation`](04-validation) | [Validation and Type-Safe DTOs](https://youtu.be/o4VHyqKAC1U) (14 min) | DTO vs domain types, newtypes with private fields (`UserName`, `Email`), `TryFrom` as the only constructor ("parse, don't validate"), `422` listing every invalid field at once, normalized emails so duplicates can't hide, the `validator` crate |
 | 5 | [`05-postgres-sqlx`](05-postgres-sqlx) | [PostgreSQL with SQLx](https://youtu.be/XPcp-o8gmqs) (18 min) | Postgres in Docker Compose, versioned migrations with the SQLx CLI and `migrate!()`, a `PgPool` instead of `Arc<RwLock<...>>`, queries checked at compile time with `query_as!` / `query!`, `Option` from `fetch_optional`, newtypes read with `#[sqlx(transparent)]`, `UNIQUE` email with unique violations mapped to `409` |
 | 6 | [`06-repository-pattern`](06-repository-pattern) | [The Repository Pattern](https://youtu.be/zbglU7Ppv10) (20 min) | A `UserRepository` trait with its own `RepoError` (converted with `From`), the SQLx code moved into `PgUserRepository`, handlers generic over the trait, why `Arc<dyn Trait>` fails with `async fn` (E0038), generics vs `dyn`, `impl Future + Send` in the trait, an in-memory fake repository and `#[tokio::test]` handler tests without a database |
+| 7 | [`07-integration-tests`](07-integration-tests) | [Integration Tests for Axum](https://youtu.be/W_qXh1a5BVY) (17 min) | The crate split into `lib.rs` + `main.rs` so `tests/` can import it, real HTTP requests sent into the `Router` with `tower::ServiceExt::oneshot` (no server, no open port), a throwaway `postgres:18` per test with testcontainers, the container's lifetime and `Drop`, `[dev-dependencies]`, unit and integration tests in one `cargo test` |
 
 Each lesson is also tagged (`lesson-01`, `lesson-02`, ...), so you can check out the repository as it was after that video.
 
 ## Running a lesson
 
-Requirements: Rust 1.85 or newer (edition 2024). From lesson 5 on, also Docker with Compose and the SQLx CLI (`cargo install sqlx-cli`).
+Requirements: Rust 1.85 or newer (edition 2024). From lesson 5 on, also Docker with Compose and the SQLx CLI (`cargo install sqlx-cli`). From lesson 7 on, `cargo test` also needs Docker running, because each integration test starts its own Postgres container.
 
 ```bash
 git clone https://github.com/fernando1000/wallet-api.git
-cd wallet-api/06-repository-pattern
+cd wallet-api/07-integration-tests
 docker compose up -d
 sqlx migrate run
+cargo test
 cargo run
 ```
 
@@ -33,8 +35,8 @@ The API listens on `http://localhost:8080`. The README in each folder lists the 
 
 ## Stack
 
-[Axum](https://github.com/tokio-rs/axum) 0.8 · [Tokio](https://tokio.rs/) 1 · [Serde](https://serde.rs/) 1 · [thiserror](https://github.com/dtolnay/thiserror) 2 (from lesson 3) · [validator](https://github.com/Keats/validator) 0.21 (from lesson 4) · [SQLx](https://github.com/launchbadge/sqlx) 0.9 with PostgreSQL 18 (from lesson 5)
+[Axum](https://github.com/tokio-rs/axum) 0.8 · [Tokio](https://tokio.rs/) 1 · [Serde](https://serde.rs/) 1 · [thiserror](https://github.com/dtolnay/thiserror) 2 (from lesson 3) · [validator](https://github.com/Keats/validator) 0.21 (from lesson 4) · [SQLx](https://github.com/launchbadge/sqlx) 0.9 with PostgreSQL 18 (from lesson 5) · [testcontainers](https://github.com/testcontainers/testcontainers-rs-modules-community) 0.15 and [tower](https://github.com/tower-rs/tower) 0.5 in the tests (from lesson 7)
 
 ---
 
-Made by Fernando Santos · [YouTube](https://youtu.be/zbglU7Ppv10) · [LinkedIn](https://www.linkedin.com/in/fernando-blockchain)
+Made by Fernando Santos · [YouTube](https://youtu.be/W_qXh1a5BVY) · [LinkedIn](https://www.linkedin.com/in/fernando-blockchain)
