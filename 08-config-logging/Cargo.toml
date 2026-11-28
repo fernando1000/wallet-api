@@ -1,0 +1,22 @@
+[package]
+name = "wallet-api"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = { version = "0.8.9", features = ["macros"] }
+dotenvy = "0.15.7"
+serde = { version = "1.0.229", features = ["derive"] }
+sqlx = { version = "0.9.1", features = ["runtime-tokio", "tls-rustls", "postgres", "macros", "migrate"] }
+thiserror = "2.0.21"
+tokio = { version = "1.54.1", features = ["full"] }
+tower = "0.5.3"
+tower-http = { version = "0.7.1", features = ["trace", "request-id"] }
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter", "json"] }
+validator = "0.21.0"
+
+[dev-dependencies]
+serde_json = "1.0.154"
+testcontainers-modules = { version = "0.15.0", features = ["postgres"] }
+tower = { version = "0.5.3", features = ["util"] }
